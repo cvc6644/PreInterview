@@ -12,3 +12,4 @@ echo palindrome("A man, a plan, a canal, Panama!")."\n";
 echo palindrome("Kayak")."\n";
 echo palindrome("123321")."\n";
 echo palindrome("123421")."\n";
+//bracketology("awdaw");
