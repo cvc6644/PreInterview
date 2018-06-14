@@ -7,8 +7,8 @@
  */
 function palindrome($input){
     
-    $trimed = strtolower(preg_filter('/\w+/', "", $input));
-    echo $trimed;
+    $trimed = strtolower(preg_replace('/\W/', '', $input));
+    
     echo strlen($trimed);
     //$test = substr_compare($trimed, strrev($trimed), 0, (strlen($trimed)/2));
     //return $trimed == strrev($trimed);
