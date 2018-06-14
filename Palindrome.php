@@ -12,8 +12,9 @@ function palindrome($input){
     return strcmp($trimed,strrev($trimed))==0?"True":"False";
     
 }
-echo "Problem #1 - Palindrome\n";
-echo palindrome("A man, a plan, a canal, Panama!")."\n";
-echo palindrome("Kayak")."\n";
-echo palindrome("123321")."\n";
-echo palindrome("123421")."\n";
+function runPalindrome(){
+    echo palindrome("A man, a plan, a canal, Panama!")."\n";//true
+    echo palindrome("Kayak")."\n";//true
+    echo palindrome("123321")."\n";//true
+    echo palindrome("123421")."\n";//false
+}
