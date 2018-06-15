@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 func Duplicate(input string ) string{
-	//changed from (?m)\W+ to (?m)\S+ as i felt compound words should also be included
+	//changed from (?m)\w+ to (?m)\S+ as i felt compound words should also be included
 	var reg = regexp.MustCompile(`(?m)\S+`)
 	//highest character count
 	var charLead = 0;
@@ -24,7 +24,7 @@ func Duplicate(input string ) string{
 			if charMap[string(letter)]>charLead {
 				//updates charLead with the new leader
 				charLead = charMap[string(letter)];
-				//updates matchLead 
+				//updates matchLead
 				matchLead = match;
 			}
 		}
@@ -33,9 +33,37 @@ func Duplicate(input string ) string{
 
 	return matchLead;
 }
+//added most common word as its the same concept
+func findWord(input string ) string{
+	var reg = regexp.MustCompile(`(?m)\w+`)
+	//highest character count
+	var charLead = 0;
+	// word that coincides with charLead
+	var matchLead =""
+	//separating out words
+	var charMap =  make(map[string]int)
+	for _,match := range reg.FindAllString(input , -1 ) {
+		//map with the character as the key and the count as the variable
+
+		//filling the map with the character counts
+
+			//increments the count for the word
+			charMap[string(match)]++
+			//checks if that increment puts that character in the lead
+			if charMap[string(match)]>charLead {
+				//updates charLead with the new leader
+				charLead = charMap[string(match)];
+				//updates matchLead
+				matchLead = match;
+			}
+
+
+	}
+
+	return matchLead;
+}
 func main() {
 	fmt.Println(Duplicate("O Romeo, Romeo, wherefore art thou Romeo?"))//wherefore
-
 	fmt.Println(Duplicate("Some people feel the rain, while others just get wet."))//people
 	fmt.Println(Duplicate("Your program must take a in a sentence and determine the word with the most duplicate letters and return that word."))
 	//wanted a super long string to test how long it took to run and imho thats still quite fast
