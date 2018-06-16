@@ -9,7 +9,7 @@ func Duplicate(input string ) string{
 	//changed from (?m)\w+ to (?m)\S+ as i felt compound words should also be included
 	var reg = regexp.MustCompile(`(?m)\S+`)
 	//highest character count
-	var charLead = 0;
+	var charLead = 0
 	// word that coincides with charLead
 	var matchLead =""
 	//separating out words
@@ -23,21 +23,65 @@ func Duplicate(input string ) string{
 			//checks if that increment puts that character in the lead
 			if charMap[string(letter)]>charLead {
 				//updates charLead with the new leader
-				charLead = charMap[string(letter)];
+				charLead = charMap[string(letter)]
 				//updates matchLead
-				matchLead = match;
+				matchLead = match
 			}
 		}
 
 	}
 
-	return matchLead;
+	return matchLead
+}
+/*
+Apparently there is a completely different interpretation of this question which for the examples is the same but would be different on another
+ */
+func alternateDuplicate(input string ) string{
+	//changed from (?m)\w+ to (?m)\S+ as i felt compound words should also be included
+	var reg = regexp.MustCompile(`(?m)\S+`)
+	//highest character count
+	var charLead = 0
+	// word that coincides with charLead
+	var matchLead =""
+	//separating out words
+	for _,match := range reg.FindAllString(input , -1 ) {
+		//map with the character as the key and the count as the variable
+		var charMap =  make(map[string]int)
+		//filling the map with the character counts
+
+		for _,letter := range strings.ToLower(match){
+			//increments the count for the letter
+			charMap[string(letter)]++
+
+
+			if charMap[string(letter)]==2{ //check to increment 2 when a letter is first found to be duplicated
+				charMap["count"]+=2
+
+
+			}else if charMap[string(letter)]>1{// increments the count of duplicated letters
+
+				charMap["count"]++
+
+			}
+			//checks if that increment puts that word in the lead
+			if charMap[string(letter)]>1 && charMap["count"]>charLead {
+				//updates charLead with the new leader
+				charLead = charMap["count"]
+				//updates matchLead
+				matchLead = match
+
+			}
+		}
+
+	}
+
+	return matchLead
 }
 //added most common word as its the same concept
 func findWord(input string ) string{
 	var reg = regexp.MustCompile(`(?m)\w+`)
 	//highest character count
-	var charLead = 0;
+	var charLead = 0
 	// word that coincides with charLead
 	var matchLead =""
 	//separating out words
@@ -52,22 +96,35 @@ func findWord(input string ) string{
 			//checks if that increment puts that character in the lead
 			if charMap[string(match)]>charLead {
 				//updates charLead with the new leader
-				charLead = charMap[string(match)];
+				charLead = charMap[string(match)]
 				//updates matchLead
-				matchLead = match;
+				matchLead = match
 			}
 
 
 	}
 
-	return matchLead;
+	return matchLead
 }
 func main() {
+	fmt.Println("First interpretation: find the word with the highest reoccurace of a letter")
 	fmt.Println(Duplicate("O Romeo, Romeo, wherefore art thou Romeo?"))//wherefore
 	fmt.Println(Duplicate("Some people feel the rain, while others just get wet."))//people
 	fmt.Println(Duplicate("Your program must take a in a sentence and determine the word with the most duplicate letters and return that word."))
-	//wanted a super long string to test how long it took to run and imho thats still quite fast
-	fmt.Println(Duplicate(`"Star? Not I! Movie – it too has a star in or a cameo who wore mask – cast are livewires.
+	fmt.Println(Duplicate("Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press;"+
+		"or the right of the people peaceably to assemble, and to petition the government for a redress of grievances."))
+	fmt.Println(Duplicate(palindrome))
+	fmt.Println("Second interpretation: find the word with the highest number of reoccuring letters")
+	fmt.Println(alternateDuplicate("O Romeo, Romeo, wherefore art thou Romeo?"))//wherefore
+	fmt.Println(alternateDuplicate("Some people feel the rain, while others just get wet."))//people
+	fmt.Println(alternateDuplicate("Your program must take a in a sentence and determine the word with the most duplicate letters and return that word."))
+	fmt.Println(alternateDuplicate("Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press;"+
+		"or the right of the people peaceably to assemble, and to petition the government for a redress of grievances."))
+	fmt.Println(alternateDuplicate(palindrome))
+
+}
+//wanted a super long string to test how long it took to run and imho thats still quite fast
+	var palindrome = `"Star? Not I! Movie – it too has a star in or a cameo who wore mask – cast are livewires.
 
 Soda-pop straws are sold, as part-encased a hot tin, I saw it in mad dog I met. Is dog rosy? Tie-dye booths in rocks.
 
@@ -203,7 +260,7 @@ I disperse last pair of devils (ah!) here today or else order cash to breed emus
 
 Late p.m. I saw gnu here (non-a.m.) or an idea got a dog to nod – I made felt to boot.
 
-Fill in a lad? Nay, not all, Edna – lash to buoy. Did you biff one Venus? Not I! “Broth, girl!” ladies ordered – “No, with gin!” – a fine plate, maybe suet; no carton I made rots in it.
+Fill in a lad? Nay, not all, Edna – lash to buoy. Did you biff one Venus? Not I! “Broth, girl!” ladies ordered – “No, with gin!” – a fine plate, maybe suet no carton I made rots in it.
 
 Med: a hill, Etna, clears in it. Ali, Emir, to slap in/slam in. All in all I made bad losers sign it – alibi. Set a lap for a level bat.
 
@@ -363,6 +420,6 @@ Odd locks, a maddened (I was aware) macaw on top, spot no seen knots, rifts or f
 
 Nits rub – snip now, I’ll abate, not snip, nits I held.
 
-Nubile Danish tomboys I led to old loser as no melons I held; no fish to my name. Nod lower, do I dare? No, one nods a hairy snipe. (Edit: one hairy snipe, eh?) See silliness, else we’ll ask cornish to obey deity’s or god’s item. I, God, damn it! I was in it! To Hades, acne trap, sad loser! As warts pop, a dosser I – we – vile rat, sack! Same row, oh woe! Macaroni, rats, as a hoot, tie. I vomit on rats.`))
-}
+Nubile Danish tomboys I led to old loser as no melons I held; no fish to my name. Nod lower, do I dare? No, one nods a hairy snipe. (Edit: one hairy snipe, eh?) See silliness, else we’ll ask cornish to obey deity’s or god’s item. I, God, damn it! I was in it! To Hades, acne trap, sad loser! As warts pop, a dosser I – we – vile rat, sack! Same row, oh woe! Macaroni, rats, as a hoot, tie. I vomit on rats.`
+
 
